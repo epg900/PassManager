@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Input Box in Bootstrap Popover</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="d-flex justify-content-center align-items-center vh-100">
+    
+    <!-- Simple button with popover containing input box -->
+    <button type="button" 
+            class="btn btn-primary" 
+            id="myButton"
+            data-bs-toggle="popover" 
+            data-bs-placement="bottom"
+            data-bs-html="true"
+            data-bs-content='<input type="text" class="form-control" placeholder="Type something...">'>
+        Click Me
+    </button>
+
+    <!-- Bootstrap JS -->
+    <script src="bootstrap.bundle.min.js"></script>
+    
+    <script>
+        // Initialize popover
+        var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'))
+        var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
+            return new bootstrap.Popover(popoverTriggerEl)
+        })
+    </script>
+</body>
+</html>

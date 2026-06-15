@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>✓ Tick SVG inside Bootstrap Textbox</title>
+  <!-- Bootstrap 5 CSS (light & clean) -->
+  <link href="bootstrap.min.css" rel="stylesheet">
+  <!-- Optional: tiny custom spacing to demonstrate inline tick inside input group -->
+  <style>
+   
+    .tick-svg-icon {
+      display: inline-block;
+      width: 1.4rem;
+      height: 1.4rem;
+      vertical-align: middle;
+    }
+    
+    
+  </style>
+</head>
+<body class="bg-light">
+
+  
+  
+ <label class="form-label fw-medium mt-1">⭐ Inline tick inside textbox (simulated container)</label>
+            <div class="d-flex  " >
+               <input type="password" class="form-control border-0 p-0 shadow-none" style="outline: none; box-shadow: none;" placeholder="Type something..." value="Task completed with tick inline"
+			   />
+			    
+              <svg id="svgtick" class="tick-svg-icon me-2 text-success"  style="display:block;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"  color="#28a745">
+                <polyline points="20 6 9 17 4 12"></polyline>
+              </svg>
+           
+            </div>
+           <!--  <div class="form-text text-muted mt-1">✓ SVG & input inside border — clean inline tick inside textbox area.</div>
+    optional Bootstrap JS bundle not strictly needed but for any potential interactions (not required for visuals) -->
+  
+  
+  
+   <label class="form-label fw-medium mt-1">✔️ Trailing tick SVG (inside textbox area)</label>
+            <div class="input-group  mb-4">
+              <input type="text" class="form-control border-end-0" placeholder="e.g., valid entry" value="All good">
+                <span class="input-group-text bg-white ">
+              
+				<svg class="tick-svg-icon " xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8"  color="#28a745">
+                  <path d="M20 6L9 17l-5-5"/>
+                </svg>
+              </span>
+            </div>
+  
+  
+  <script src="bootstrap.bundle.min.js"></script>
+</body>
+</html>

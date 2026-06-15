@@ -1,0 +1,72 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ title }}</title>
+    <link href="{% static 'bootstrap.min.css' %}" rel="stylesheet" />
+
+<style>
+.tick-svg-css {
+display: none;
+width:1.4rem;
+height:1.4rem;
+vertical-align:middle;
+}
+</style>
+</head>
+<body>
+    <div class="container mt-5">
+        <h2>{{ title }}</h2>
+        <form method="post">
+            {% csrf_token %}
+            {% for field in form %}
+		{% if field.name != 'keytext' %}
+		<p>
+		{{ field.label_tag }}
+		{{ field }}
+		</p>
+		{% endif %}
+	    {% endfor %}
+
+{{ form.keytext.label_tag }}		
+<div class="input-group mb-4">		
+		{{ form.keytext }}
+		<span class="input-group-text bg-white">
+		<svg id="svgtick" class="tick-svg-css me-2 " viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" color="#28a745">
+			<polyline points="20 6 9 17 4 12"></polyline>
+		</svg>
+		</span>
+</div>	    
+	    <button type="submit" class="btn btn-primary">Save</button>
+			<button class="btn btn-success" onclick="window.open('/','_self');" >Cancel</button>
+        </form>
+    </div>
+
+<script src="{% static 'bootstrap.bundle.min.js' %}"></script>
+
+ <script>
+   
+function checkpass(id) {
+		var passwdobj = document.getElementById("id_keytext");
+		var svgobj = document.getElementById("svgtick");		
+		const fd = new FormData();
+		fd.append('pass' , passwdobj.value);
+		fd.append('csrfmiddlewaretoken','{{ csrf_token }}');
+		fetch('/checkpass/',{ 
+		method: 'POST',		
+		body: fd })
+		.then(r => r.text())
+		.then(text => { 
+		if(text=="OK") 
+			svgobj.style.display = 'inline-block';
+		else
+			svgobj.style.display = 'none';
+
+		})
+.catch(console.error)
+	};
+
+
+  </script> 
+</body>
+</html>

@@ -1,0 +1,44 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>{% block title %}  Welcome {% endblock %}</title>
+	<link href="{% static 'bootstrap.min.css' %}" rel="stylesheet" />
+	<link href="{% static 'loginstyle.css' %}" rel="stylesheet" />
+	<style>
+	    #id_old_password {
+	        .input100;
+	    }
+	</style>
+	<link rel="icon" href="{% static 'favicon.ico' %}">
+</head>
+<body>
+    <div class="limiter">
+		<div class="container-login100">
+			<div class="wrap-login100">
+				<div class="login100-form-title">
+					<span class="login100-form-title-1">  Welcome </span>
+				</div>
+				<form class="login100-form validate-form"  id="login" method="post" >
+				    {% csrf_token %}
+					<div class="wrap-input100 validate-input m-b-26" >
+						<span class="label-input100">UserName</span>
+						<input class="input100" type="text"  id="id_username"  name="username" >
+						<span class="focus-input100"></span>
+					</div>
+					<div class="wrap-input100 validate-input m-b-26" >
+						<span class="label-input100">Password</span>
+						<input class="input100" type="password"  id="id_password"  name="password" >
+						<span class="focus-input100"></span>
+					</div>					
+					<div class="container-login100-form-btn">
+						<button class="login100-form-btn">Login</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>    
+</body>
+</html>

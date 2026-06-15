@@ -1,0 +1,135 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dashboard</title>
+    <link href="{% static 'bootstrap.min.css' %}" rel="stylesheet" />
+<script>
+	
+</script>  
+</head>
+<body>
+	<nav class="navbar navbar-expand-lg navbar-dark fixed-top bg-dark " id="mainNav">
+		<div class="container">
+			<a class="navbar-brand js-scroll-trigger" href="#page-top"> <span> Dashboard </span> </a>
+			<div class="collapse navbar-collapse" id="navbarResponsive">
+				{% if request.user.is_authenticated %}
+				<ul class="navbar-nav ml-auto my-2 my-lg-0">
+				    <li class="nav-item">
+						<a class="nav-link js-scroll-trigger" href="{% url 'add_server' %}" >Add New Password Data</a>
+					</li>
+				</ul>
+				
+				<ul class="navbar-nav me-auto ">				
+					<li class="nav-item">
+					  <a class="nav-link" href="#" >username : {{request.user.username}}</i></a>						
+					</li>
+					<li class="nav-item">
+					<a href="/logout" class="nav-link" > Logout </a>
+					</li>
+				</ul>
+				{% endif %}
+			</div>
+		</div>
+	</nav>
+    <div class="container mt-5">
+		<div class="p-5 rounded">
+        <form  class="mb-3" id="search" method="post"  enctype="multipart/form-data" action="/" >
+			{% csrf_token %}
+			<div class="input-group">
+				<div class="col-sm-2">
+				<input class="form-control" type="text" name="idnum" id="idnum" value="{{data}}" />
+				</div>
+				<div class="input-group-append">
+					<input class="btn btn-primary"  type="submit"  value="Search" />	
+				</div>
+			</div>
+		</form>
+		
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Server Name</th>
+                    <th>Username</th>
+					<th>Password</th>
+                    <th>Description</th>
+					<th>Config Text</th>
+                    <th colspan=2 >Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for server in servers %}
+                <tr>
+                    <td>{{ server.server_name }}</td>
+                    <td>{{ server.username }}</td>
+					<td>
+				<img id="passstr_{{ server.pk }}" src="{% static 'eye32.png' %}" data-bs-toggle="popover" data-bs-content="show_pass" data-bs-trigger="hover" onclick="openmodal(this.id,'{{ server.pk }}');" />						
+					</td>
+					<td>{{ server.description }}</td>
+					<td>
+						<a href="{% url 'download_config' server.pk %}" ><img src="{% static 'down32.png' %}" /></a>
+					</td>
+                    <td>
+                        <a href="{% url 'edit_server' server.pk %}" class="btn btn-primary btn-sm">Edit</a>
+					</td>					
+					<td>
+						<a href="#" class="btn btn-danger btn-sm" onclick="if (confirm('Do you really want to delete this record?')) {window.open('/delete/{{server.pk}}','_self');}">Delete</a>
+					</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+		</div>
+    </div>
+
+<!-- Modal 3 -->
+
+    <div class="modal modal-dialog-scrollable  bottom fade" id="getpassmodal" tabindex="-1" data-backdrop="static" data-keyboard="false">
+      <div class="modal-dialog modal-frame modal-bottom ">
+        <div class="modal-content">
+          <div class="modal-body">
+			<div class="input-group mb-4">				
+				   <input class="form-control" type="password" autocomplete="new-password" maxlength=20 name="idpasstext" id="idpasstext" value="" />
+			</div>
+			<div class="input-group-append align-center">
+				   <input class="btn btn-primary"  type="button" onclick="getpassdata();" value="Get_Pass" data-bs-dismiss="modal" />				
+			</div>
+	  </div>
+        </div>
+      </div>
+    </div>
+
+  <script src="{% static 'bootstrap.bundle.min.js' %}"></script>
+  <script>
+    const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]');
+    const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl));	
+
+
+var gid = "";
+var gpk = "";
+
+function getpassdata() {
+		var inp = document.getElementById("idpasstext").value; //prompt('Enter Your Key');
+		obj = document.getElementById(gid);
+		const fd = new FormData();
+		fd.append('idx' , gpk);
+		fd.append('key' , inp);
+		fd.append('csrfmiddlewaretoken','{{ csrf_token }}');
+		fetch('/getpassstr/',{ 
+		method: 'POST',		
+		body: fd })
+		.then(r => r.text())
+		.then(text => obj.setAttribute('data-bs-content', text))
+		.catch(console.error)
+	};
+
+function openmodal(id,pk) {
+		gid=id;
+		gpk=pk;
+		const objmodal = document.getElementById("getpassmodal");
+		const modal = new bootstrap.Modal(objmodal);
+		modal.show();		
+	};
+  </script>  
+</body>
+</html>
